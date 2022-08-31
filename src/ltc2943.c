@@ -23,7 +23,16 @@ bool ltc2943_getMode(controlFields* controls)
 
 bool ltc2943_setMode(controlFields controls)
 {
-	return true;
+	if(!i2cInitialize())
+	{
+		return false;
+	}
+
+	uint8_t controlData[2];
+	controlData[0] = CONTROL_REG;
+	controlData[1] = controls.mode | controls.prescaler | controls.allcPinMode | controls.shutDown;
+	
+	return i2cWrite(LTC2943_ADDRESS << 1, controlData, sizeof(controlData));
 }
 
 bool ltc2943_checkVoltageAlertPending(bool *alertPending)
