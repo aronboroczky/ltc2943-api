@@ -102,8 +102,8 @@ typedef struct controlFields
 	uint8_t shutDown;
 } controlFields;
 
-bool ltc2943_getMode(controlFields* controls);
-bool ltc2943_setMode(controlFields controls);
+bool ltc2943_getMode(adcMode *mode);
+bool ltc2943_setMode(adcMode controls);
 bool ltc2943_checkVoltageAlertPending(bool *alertPending);
 bool ltc2943_checkTemperatureAlertPending(bool *alertPending);
 
