@@ -1,6 +1,11 @@
 #include "ltc2943.h"
 #include "i2c_driver.h"
 
+bool i2cInitialize(void);
+bool getControlRegister(controlFields *controls);
+bool setControlRegister(controlFields controls);
+bool getStatusRegister(uint8_t *status);
+
 bool ltc2943_getMode(adcMode *mode)
 {
 	controlFields controls;
@@ -61,7 +66,7 @@ bool ltc2943_checkTemperatureAlertPending(bool *alertPending)
 	return true;
 }
 
-bool i2cInitialize()
+bool i2cInitialize(void)
 {
 	if (i2cIsInitialized())
 	{
@@ -78,7 +83,8 @@ bool getControlRegister(controlFields *controls)
 		return false;
 	}
 
-	if (!i2cWrite(LTC2943_ADDRESS << 1, CONTROL_REG, 1))
+	uint8_t controlRegister[1] = {CONTROL_REG};
+	if (!i2cWrite(LTC2943_ADDRESS << 1, controlRegister, 1))
 	{
 		return false;
 	}
@@ -90,10 +96,10 @@ bool getControlRegister(controlFields *controls)
 		return false;
 	}
 
-	controls->mode = controlRegisterContent & ADCMODE_MASK;
-	controls->prescaler = controlRegisterContent & PRESCALER_MASK;
-	controls->allcPinMode = controlRegisterContent & ALLCPIN_MASK;
-	controls->shutDown = controlRegisterContent & SHUTDOWN_MASK;
+	controls->mode = (adcMode)(controlRegisterContent & ADCMODE_MASK);
+	controls->prescaler = (prescalerSet)(controlRegisterContent & PRESCALER_MASK);
+	controls->allcPinMode = (alccPinMode)(controlRegisterContent & ALLCPIN_MASK);
+	controls->shutDown = (uint8_t)(controlRegisterContent & SHUTDOWN_MASK);
 
 	return true;
 }

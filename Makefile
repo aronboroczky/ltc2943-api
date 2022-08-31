@@ -29,6 +29,9 @@ CFLAGS += -Wundef
 CFLAGS += -Wold-style-definition
 
 
+$(OBJ_DIR)/ltc2943.o: $(SRC_DIR)/ltc2943.c $(OBJ_DIR)
+	$(CC) $(CFLAGS) -c $(SRC_DIR)/ltc2943.c -o $(OBJ_DIR)/ltc2943.o
+
 $(OBJ_DIR)/i2c_driver.o: $(SRC_DIR)/i2c_driver.c $(OBJ_DIR)
 	$(CC) $(CFLAGS) -c $(SRC_DIR)/i2c_driver.c -o $(OBJ_DIR)/i2c_driver.o
 
