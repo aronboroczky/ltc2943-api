@@ -1,4 +1,5 @@
 #include "i2c_driver.h"
+#include <string.h>
 
 bool initialized = false;
 
