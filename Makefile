@@ -28,6 +28,14 @@ CFLAGS += -Wstrict-prototypes
 CFLAGS += -Wundef
 CFLAGS += -Wold-style-definition
 
+$(BUILD_DIR)/$(TARGET_EXEC): $(OBJS) $(OBJ_DIR) $(BUILD_DIR)
+	$(CC) $(CFLAGS) $(OBJS) -o $@
+
+$(BUILD_DIR):
+	mkdir $@
+
+$(OBJ_DIR)/main.o: $(SRC_DIR)/main.c $(OBJ_DIR)
+	$(CC) $(CFLAGS) -c $(SRC_DIR)/main.c -o $(OBJ_DIR)/main.o
 
 $(OBJ_DIR)/ltc2943.o: $(SRC_DIR)/ltc2943.c $(OBJ_DIR)
 	$(CC) $(CFLAGS) -c $(SRC_DIR)/ltc2943.c -o $(OBJ_DIR)/ltc2943.o

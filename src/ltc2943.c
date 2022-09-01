@@ -42,7 +42,7 @@ bool ltc2943_checkVoltageAlertPending(bool *alertPending)
 
 	uint8_t statusRegisterContent = 0x00;
 
-	if (getStatusRegister(&statusRegisterContent))
+	if (!getStatusRegister(&statusRegisterContent))
 	{
 		return false;
 	}
@@ -56,7 +56,7 @@ bool ltc2943_checkTemperatureAlertPending(bool *alertPending)
 {
 	uint8_t statusRegisterContent = 0x00;
 
-	if (getStatusRegister(&statusRegisterContent))
+	if (!getStatusRegister(&statusRegisterContent))
 	{
 		return false;
 	}
@@ -125,7 +125,8 @@ bool getStatusRegister(uint8_t *status)
 		return false;
 	}
 
-	if (!i2cWrite(LTC2943_ADDRESS << 1, STATUS_REG, 1))
+	uint8_t statusRegister[1] = {STATUS_REG};
+	if (!i2cWrite(LTC2943_ADDRESS << 1, statusRegister, 1))
 	{
 		return false;
 	}
